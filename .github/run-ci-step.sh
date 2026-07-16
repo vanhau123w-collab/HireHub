@@ -25,5 +25,20 @@ if [ "$status" -ne 0 ]; then
       echo '```'
     } >> "$GITHUB_STEP_SUMMARY"
   fi
+  if [ -n "${GH_CHECK_TOKEN:-}" ] && [ -n "${GITHUB_REPOSITORY:-}" ]; then
+    details=$(printf '%s\n' "$output" | tail -n 40 | sed -E $'s/\x1B\[[0-9;]*[mK]//g')
+    payload=$(jq -n \
+      --arg sha "$GITHUB_SHA" \
+      --arg title "$title" \
+      --arg details "$details" \
+      '{name:"CI failure details",head_sha:$sha,status:"completed",conclusion:"failure",output:{title:$title,summary:$details}}')
+    curl --fail --silent --show-error \
+      -X POST \
+      -H "Authorization: Bearer ${GH_CHECK_TOKEN}" \
+      -H "Accept: application/vnd.github+json" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      "https://api.github.com/repos/${GITHUB_REPOSITORY}/check-runs" \
+      -d "$payload" > /dev/null || true
+  fi
   exit "$status"
 fi
