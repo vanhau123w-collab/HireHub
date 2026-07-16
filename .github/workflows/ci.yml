@@ -54,6 +54,8 @@ jobs:
             exit 1
           fi
           echo "$generate_output"
+      - name: Build shared contracts
+        run: bash .github/run-ci-step.sh "Shared package build failed" npm run build -w @hirehub/shared
       - run: npm run db:deploy
       - name: Seed database
         run: bash .github/run-ci-step.sh "Database seed failed" npm run db:seed
