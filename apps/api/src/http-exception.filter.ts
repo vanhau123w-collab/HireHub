@@ -50,6 +50,8 @@ export class HttpErrorFilter implements ExceptionFilter {
               (body as { message?: string | string[] }).message ||
                 exception.message,
             );
+    } else {
+      console.error(`[${request.requestId || "unknown"}]`, exception);
     }
     response.status(status).json({
       code,

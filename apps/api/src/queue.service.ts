@@ -55,6 +55,7 @@ export class QueueService implements OnModuleDestroy {
   }
   async onModuleDestroy() {
     await Promise.all([...this.queues.values()].map((queue) => queue.close()));
-    if (this.connection.status !== "end") await this.connection.quit();
+    if (this.connection.status === "ready") await this.connection.quit();
+    else this.connection.disconnect();
   }
 }
