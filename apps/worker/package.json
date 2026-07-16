@@ -1,0 +1,29 @@
+{
+  "name": "@hirehub/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1088.0",
+    "@hirehub/shared": "*",
+    "@prisma/client": "^6.5.0",
+    "bullmq": "^5.41.4",
+    "ioredis": "^5.6.0",
+    "nodemailer": "^9.0.3",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@types/nodemailer": "^6.4.17",
+    "tsx": "^4.19.3",
+    "typescript": "~5.7.2",
+    "vitest": "^3.0.8"
+  }
+}

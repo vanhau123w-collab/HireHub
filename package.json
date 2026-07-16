@@ -1,0 +1,29 @@
+{
+  "name": "hirehub",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api,worker -c cyan,green,magenta \"npm run dev -w @hirehub/web\" \"npm run dev -w @hirehub/api\" \"npm run dev -w @hirehub/worker\"",
+    "build": "npm run build -w @hirehub/shared && npm run build -w @hirehub/api && npm run build -w @hirehub/worker && npm run build -w @hirehub/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "prettier --check \"apps/**/*.{ts,tsx,css,json}\" \"packages/**/*.{ts,tsx,json}\" \"*.{json,md,yml}\" \".github/**/*.yml\"",
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "npm run test:e2e -w @hirehub/web",
+    "test:e2e:desktop": "npm run test:e2e:desktop -w @hirehub/web",
+    "db:generate": "npm run db:generate -w @hirehub/api",
+    "db:migrate": "npm run db:migrate -w @hirehub/api",
+    "db:deploy": "npm run db:deploy -w @hirehub/api",
+    "db:seed": "npm run db:seed -w @hirehub/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.9.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
