@@ -3432,6 +3432,9 @@ body,
 html[data-mantine-color-scheme="light"] {
   --mantine-color-dimmed: #5f6670 !important;
 }
+html[data-mantine-color-scheme="light"] .mantine-Notification-description {
+  color: #5f6670;
+}
 html[data-mantine-color-scheme="dark"] {
   --mantine-color-dimmed: #b8bec7 !important;
 }

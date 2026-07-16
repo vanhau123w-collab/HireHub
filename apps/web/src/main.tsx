@@ -37,6 +37,13 @@ const theme = createTheme({
       "#5f3dc4",
     ],
   },
+  components: {
+    Notification: {
+      defaultProps: {
+        closeButtonProps: { "aria-label": "Dismiss notification" },
+      },
+    },
+  },
 });
 const colorSchemeManager = localStorageColorSchemeManager({
   key: "hirehub-color-scheme",
