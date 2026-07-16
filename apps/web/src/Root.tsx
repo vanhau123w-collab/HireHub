@@ -240,8 +240,8 @@ function Login() {
           </motion.div>
           <motion.div
             className="auth-product-visual"
-            initial={reduceMotion ? false : { opacity: 0, x: 40, rotate: 1 }}
-            animate={{ opacity: 1, x: 0, rotate: -2 }}
+            initial={reduceMotion ? false : { x: 40, rotate: 1 }}
+            animate={{ x: 0, rotate: -2 }}
             transition={{
               duration: 0.8,
               delay: 0.12,
