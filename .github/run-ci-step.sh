@@ -17,5 +17,13 @@ if [ "$status" -ne 0 ]; then
   annotation="${annotation//'%'/'%25'}"
   annotation="${annotation//$'\r'/''}"
   echo "::error file=.github/workflows/ci.yml,line=1,title=${title}::${annotation}"
+  if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+    {
+      echo "### ${title}"
+      echo '```text'
+      printf '%s\n' "$output" | tail -n 40
+      echo '```'
+    } >> "$GITHUB_STEP_SUMMARY"
+  fi
   exit "$status"
 fi
