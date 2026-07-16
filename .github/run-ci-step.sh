@@ -26,7 +26,7 @@ if [ "$status" -ne 0 ]; then
     } >> "$GITHUB_STEP_SUMMARY"
   fi
   if [ -n "${GH_CHECK_TOKEN:-}" ] && [ -n "${GITHUB_REPOSITORY:-}" ]; then
-    details=$(printf '%s\n' "$output" | tail -n 40 | sed -E $'s/\x1B\[[0-9;]*[mK]//g')
+    details=$(printf '%s\n' "$output" | tail -n 200 | sed -E $'s/\x1B\[[0-9;]*[mK]//g')
     payload=$(jq -n \
       --arg sha "$GITHUB_SHA" \
       --arg title "$title" \
