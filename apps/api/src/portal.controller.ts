@@ -13,7 +13,6 @@ import { ApiTags } from "@nestjs/swagger";
 import type { Request } from "express";
 import { randomBytes } from "node:crypto";
 import argon2 from "argon2";
-import type { Prisma } from "@prisma/client";
 import { AuthUser, Public, Roles } from "./auth";
 import { PrismaService } from "./prisma.service";
 import { QueueService } from "./queue.service";
@@ -487,7 +486,9 @@ export class PortalController {
       where: { id: (req.user as AuthUser).companyId! },
       data: {
         ...body,
-        settings: body.settings as Prisma.InputJsonValue | undefined,
+        settings: body.settings
+          ? JSON.parse(JSON.stringify(body.settings))
+          : undefined,
       },
     });
   }
