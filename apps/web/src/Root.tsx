@@ -341,13 +341,13 @@ function Login() {
         </section>
         <motion.section
           className="auth-form"
-          initial={reduceMotion ? false : { opacity: 0, x: 22 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={reduceMotion ? false : { x: 22 }}
+          animate={{ x: 0 }}
           transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
           <Stack maw={480} w="100%" gap="lg">
             <Group justify="space-between">
-              <Text size="xs" fw={700} c="violet">
+              <Text size="xs" fw={700} c="#6842d7">
                 HIREHUB
               </Text>
               <Preferences />

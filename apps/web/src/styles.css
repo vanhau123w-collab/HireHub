@@ -1511,6 +1511,8 @@ th {
   position: relative;
   z-index: 3;
   max-width: 570px;
+  /* Keep the overlapping product preview controls clickable. */
+  pointer-events: none;
 }
 .auth-story > p,
 .eyebrow {
@@ -1647,7 +1649,7 @@ th {
   padding: 10px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.045);
-  opacity: 0.46;
+  opacity: 1;
   transform: scale(0.97);
   transition:
     opacity 220ms ease,
@@ -1706,6 +1708,7 @@ th {
   font-size: 7px;
   font-style: normal;
   font-weight: 800;
+  color: #fff;
 }
 .avatar-linh {
   background: #7551ea;
