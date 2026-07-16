@@ -51,10 +51,17 @@ jobs:
           fi
           echo "$generate_output"
       - run: npm run db:deploy
-      - run: npm run db:seed
-      - run: npm run lint
-      - run: npm run typecheck
-      - run: npm test
-      - run: npm run build
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e:desktop
+      - name: Seed database
+        run: bash .github/run-ci-step.sh "Database seed failed" npm run db:seed
+      - name: Lint
+        run: bash .github/run-ci-step.sh "Lint failed" npm run lint
+      - name: Typecheck
+        run: bash .github/run-ci-step.sh "Typecheck failed" npm run typecheck
+      - name: Unit and integration tests
+        run: bash .github/run-ci-step.sh "Tests failed" npm test
+      - name: Production build
+        run: bash .github/run-ci-step.sh "Production build failed" npm run build
+      - name: Install Playwright browser
+        run: bash .github/run-ci-step.sh "Playwright install failed" npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        run: bash .github/run-ci-step.sh "End-to-end tests failed" npm run test:e2e:desktop
