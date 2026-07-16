@@ -12,10 +12,10 @@ set -e
 echo "$output"
 
 if [ "$status" -ne 0 ]; then
-  annotation="${output: -6000}"
+  annotation=$(printf '%s\n' "$output" | tail -n 24 | sed -E $'s/\x1B\[[0-9;]*[mK]//g' | tr '\n' ' ')
+  annotation="${annotation: -3000}"
   annotation="${annotation//'%'/'%25'}"
-  annotation="${annotation//$'\r'/'%0D'}"
-  annotation="${annotation//$'\n'/'%0A'}"
-  echo "::error title=${title}::${annotation}"
+  annotation="${annotation//$'\r'/''}"
+  echo "::error file=.github/workflows/ci.yml,line=1,title=${title}::${annotation}"
   exit "$status"
 fi
