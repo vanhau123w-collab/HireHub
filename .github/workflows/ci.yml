@@ -24,7 +24,32 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
-      - run: npm run db:generate
+      - name: Validate and generate Prisma client
+        shell: bash
+        run: |
+          report_failure() {
+            local title="$1"
+            local output="$2"
+            output="${output: -6000}"
+            output="${output//'%'/'%25'}"
+            output="${output//$'\r'/'%0D'}"
+            output="${output//$'\n'/'%0A'}"
+            echo "::error title=${title}::${output}"
+          }
+
+          if ! validate_output=$(npx prisma validate --schema apps/api/prisma/schema.prisma 2>&1); then
+            echo "$validate_output"
+            report_failure "Prisma schema validation failed" "$validate_output"
+            exit 1
+          fi
+          echo "$validate_output"
+
+          if ! generate_output=$(npm run db:generate 2>&1); then
+            echo "$generate_output"
+            report_failure "Prisma client generation failed" "$generate_output"
+            exit 1
+          fi
+          echo "$generate_output"
       - run: npm run db:deploy
       - run: npm run db:seed
       - run: npm run lint
