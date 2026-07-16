@@ -2,6 +2,7 @@ import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
+  Inject,
   Injectable,
   SetMetadata,
   UnauthorizedException,
@@ -28,8 +29,8 @@ export const Roles = (...roles: SystemRole[]) => SetMetadata("roles", roles);
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private jwt: JwtService,
-    private reflector: Reflector,
+    @Inject(JwtService) private jwt: JwtService,
+    @Inject(Reflector) private reflector: Reflector,
   ) {}
   canActivate(ctx: ExecutionContext) {
     if (
@@ -56,7 +57,7 @@ export class AuthGuard implements CanActivate {
 }
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(@Inject(Reflector) private reflector: Reflector) {}
   canActivate(ctx: ExecutionContext) {
     const roles = this.reflector.getAllAndOverride<SystemRole[]>("roles", [
       ctx.getHandler(),
