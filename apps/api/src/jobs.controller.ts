@@ -3,6 +3,7 @@ import {
   ConflictException,
   Controller,
   Get,
+  Inject,
   NotFoundException,
   Param,
   Patch,
@@ -18,7 +19,7 @@ import { PrismaService } from "./prisma.service";
 @ApiTags("jobs")
 @Controller("jobs")
 export class JobsController {
-  constructor(private db: PrismaService) {}
+  constructor(@Inject(PrismaService) private db: PrismaService) {}
   @Public() @Get() async list(
     @Query("q") q?: string,
     @Query("cursor") cursor?: string,

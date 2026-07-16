@@ -1,4 +1,4 @@
-import { Logger } from "@nestjs/common";
+import { Inject, Logger } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import {
   OnGatewayConnection,
@@ -18,7 +18,7 @@ import type { AuthUser } from "./auth";
 export class EventsGateway implements OnGatewayConnection {
   @WebSocketServer() server!: Server;
   private readonly logger = new Logger(EventsGateway.name);
-  constructor(private readonly jwt: JwtService) {}
+  constructor(@Inject(JwtService) private readonly jwt: JwtService) {}
 
   handleConnection(client: Socket) {
     const token = String(

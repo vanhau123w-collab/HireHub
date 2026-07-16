@@ -5,6 +5,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   NotFoundException,
   Param,
   Post,
@@ -22,9 +23,9 @@ import { StorageService } from "./storage.service";
 @Controller("applications")
 export class ApplicationsController {
   constructor(
-    private db: PrismaService,
-    private queue: QueueService,
-    private storage: StorageService,
+    @Inject(PrismaService) private db: PrismaService,
+    @Inject(QueueService) private queue: QueueService,
+    @Inject(StorageService) private storage: StorageService,
   ) {}
   @Roles("CANDIDATE") @Post() async apply(
     @Req() req: Request,

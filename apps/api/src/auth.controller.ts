@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Query, Req, Res } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Query,
+  Req,
+  Res,
+} from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import type { Request, Response } from "express";
 import { AuthUser, Public } from "./auth";
@@ -8,8 +17,8 @@ import { PrismaService } from "./prisma.service";
 @Controller("auth")
 export class AuthController {
   constructor(
-    private auth: AuthService,
-    private db: PrismaService,
+    @Inject(AuthService) private auth: AuthService,
+    @Inject(PrismaService) private db: PrismaService,
   ) {}
   private cookie(res: Response, token: string) {
     res.cookie("hirehub_refresh", token, {

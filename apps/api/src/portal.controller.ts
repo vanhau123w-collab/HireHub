@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Patch,
   Post,
@@ -21,9 +22,9 @@ import { StorageService } from "./storage.service";
 @Controller()
 export class PortalController {
   constructor(
-    private db: PrismaService,
-    private queue: QueueService,
-    private storage: StorageService,
+    @Inject(PrismaService) private db: PrismaService,
+    @Inject(QueueService) private queue: QueueService,
+    @Inject(StorageService) private storage: StorageService,
   ) {}
   @Public() @Get("companies/:slug") async publicCompany(
     @Param("slug") slug: string,

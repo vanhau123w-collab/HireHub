@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   NotFoundException,
   Param,
   Patch,
@@ -20,8 +21,8 @@ import { EventsGateway } from "./events.gateway";
 @Controller()
 export class WorkflowsController {
   constructor(
-    private db: PrismaService,
-    private events: EventsGateway,
+    @Inject(PrismaService) private db: PrismaService,
+    @Inject(EventsGateway) private events: EventsGateway,
   ) {}
   @Roles("RECRUITER", "COMPANY_ADMIN") @Get("interviews") interviews(
     @Req() req: Request,

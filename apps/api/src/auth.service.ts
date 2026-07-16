@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -11,8 +12,8 @@ import { PrismaService } from "./prisma.service";
 @Injectable()
 export class AuthService {
   constructor(
-    private db: PrismaService,
-    private jwt: JwtService,
+    @Inject(PrismaService) private db: PrismaService,
+    @Inject(JwtService) private jwt: JwtService,
   ) {}
   private async tokens(
     user: { id: string; role: any },
