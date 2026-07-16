@@ -27,12 +27,18 @@ export class AuthService {
         "dev-access-secret-change-me-32-characters",
       expiresIn: "15m",
     });
-    const refreshToken = await this.jwt.signAsync(payload, {
-      secret:
-        process.env.JWT_REFRESH_SECRET ||
-        "dev-refresh-secret-change-me-32-chars",
-      expiresIn: "7d",
-    });
+    // A unique JWT ID is required for refresh-token rotation. Without it,
+    // two tokens issued for the same user within one second can be identical,
+    // allowing an already-consumed token to match the newly-created session.
+    const refreshToken = await this.jwt.signAsync(
+      { ...payload, jti: randomBytes(16).toString("hex") },
+      {
+        secret:
+          process.env.JWT_REFRESH_SECRET ||
+          "dev-refresh-secret-change-me-32-chars",
+        expiresIn: "7d",
+      },
+    );
     await this.db.session.create({
       data: {
         userId: user.id,
