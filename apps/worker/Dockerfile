@@ -7,5 +7,6 @@ COPY apps/worker/package.json apps/worker/package.json
 COPY packages/shared/package.json packages/shared/package.json
 RUN npm ci
 COPY . .
+RUN npm run db:generate
 RUN npm run build -w @hirehub/shared && npm run build -w @hirehub/worker
 CMD ["npm","run","start","-w","@hirehub/worker"]
