@@ -1345,8 +1345,10 @@ th {
   margin: 80px auto 0;
   padding: 34px 38px;
   border-radius: 22px;
-  color: #fff;
-  background: #17141e;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
 .project-intro > footer > div {
   display: flex;
@@ -1360,6 +1362,7 @@ th {
   place-items: center;
   border-radius: 12px;
   background: #7950f2;
+  color: #fff;
   font-weight: 900;
 }
 .project-intro > footer p {
@@ -1371,7 +1374,7 @@ th {
 }
 .project-intro > footer small {
   margin-top: 4px;
-  color: #aaa2b7;
+  color: var(--muted);
 }
 @media (max-width: 850px) {
   .project-intro {
