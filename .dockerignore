@@ -1,0 +1,11 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.git
+.github
+*.log
+test-results
+**/test-results
+playwright-report
+**/playwright-report

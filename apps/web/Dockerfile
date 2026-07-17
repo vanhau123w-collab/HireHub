@@ -16,5 +16,4 @@ ENV PORT=80
 COPY apps/web/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=build /app/apps/web/dist /usr/share/nginx/html
 EXPOSE 80
-HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://127.0.0.1:$PORT/healthz || exit 1
 CMD ["nginx", "-g", "daemon off;"]
