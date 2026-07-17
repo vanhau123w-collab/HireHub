@@ -12,8 +12,7 @@ ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build -w @hirehub/shared && npm run build -w @hirehub/web
 
 FROM nginx:1.27-alpine
-ENV PORT=80
-COPY apps/web/nginx.conf /etc/nginx/templates/default.conf.template
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/apps/web/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
