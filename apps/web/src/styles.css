@@ -2403,18 +2403,19 @@ th {
   display: grid;
   grid-template-columns: 215px 1fr;
   min-height: 100vh;
-  background: #f5f6f8;
+  background: var(--page);
 }
 .admin-shell > aside {
-  background: #11131a;
-  color: #cfd1d8;
+  background: var(--surface);
+  color: var(--text);
+  border-right: 1px solid var(--border);
   padding: 25px 15px;
   display: flex;
   flex-direction: column;
 }
 .admin-shell > aside > p {
   font-size: 7px;
-  color: #666b79;
+  color: var(--muted);
   letter-spacing: 0.15em;
   padding: 15px 10px 8px;
 }
@@ -2430,11 +2431,22 @@ th {
   padding: 10px;
   border-radius: 7px;
   font-size: 9px;
-  color: #858a98;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.admin-shell > aside nav a:hover,
+.admin-shell > aside > button:hover {
+  color: var(--text);
+  background: var(--surface-subtle);
 }
 .admin-shell > aside nav a.active {
-  background: #252936;
-  color: #fff;
+  background: var(--surface-subtle);
+  color: var(--text);
+  font-weight: 700;
 }
 .admin-shell > aside svg {
   width: 16px;
