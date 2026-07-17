@@ -26,9 +26,10 @@ async function bootstrap() {
     app,
     SwaggerModule.createDocument(app, config),
   );
-  await app.listen(Number(process.env.API_PORT || 4000));
+  const port = Number(process.env.PORT || process.env.API_PORT || 4000);
+  await app.listen(port);
   console.log(
-    `HireHub API: http://localhost:${process.env.API_PORT || 4000}/api`,
+    `HireHub API: http://localhost:${port}/api`,
   );
 }
 bootstrap();
