@@ -8,7 +8,7 @@ import {
   Req,
   Res,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 import type { Request, Response } from "express";
 import { AuthUser, Public } from "./auth";
 import { AuthService } from "./auth.service";
@@ -29,7 +29,19 @@ export class AuthController {
       maxAge: 7 * 864e5,
     });
   }
-  @Public() @Post("login") async login(
+  @Public()
+  @Post("login")
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        email: { type: "string", example: "candidate@hirehub.dev" },
+        password: { type: "string", example: "password123" },
+      },
+      required: ["email", "password"],
+    },
+  })
+  async login(
     @Body() body: unknown,
     @Res({ passthrough: true }) res: Response,
   ) {
@@ -38,7 +50,21 @@ export class AuthController {
     const { refreshToken, ...safe } = result;
     return safe;
   }
-  @Public() @Post("register") async register(
+  @Public()
+  @Post("register")
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        name: { type: "string", example: "John Doe" },
+        email: { type: "string", example: "candidate@hirehub.dev" },
+        password: { type: "string", example: "password123" },
+        role: { type: "string", enum: ["CANDIDATE", "RECRUITER"], example: "CANDIDATE" },
+      },
+      required: ["name", "email", "password", "role"],
+    },
+  })
+  async register(
     @Body() body: unknown,
     @Res({ passthrough: true }) res: Response,
   ) {
@@ -55,20 +81,65 @@ export class AuthController {
     this.cookie(res, result.refreshToken);
     return { accessToken: result.accessToken };
   }
-  @Public() @Post("verify-email/request") verifyRequest(
+  @Public()
+  @Post("verify-email/request")
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        email: { type: "string", example: "candidate@hirehub.dev" },
+      },
+      required: ["email"],
+    },
+  })
+  verifyRequest(
     @Body() body: { email: string },
   ) {
     return this.auth.issueToken(body.email, "VERIFY_EMAIL");
   }
-  @Public() @Post("verify-email/confirm") verifyConfirm(
+  @Public()
+  @Post("verify-email/confirm")
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        token: { type: "string", example: "some-verification-token" },
+      },
+      required: ["token"],
+    },
+  })
+  verifyConfirm(
     @Body() body: { token: string },
   ) {
     return this.auth.consumeToken(body.token, "VERIFY_EMAIL");
   }
-  @Public() @Post("password/forgot") forgot(@Body() body: { email: string }) {
+  @Public()
+  @Post("password/forgot")
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        email: { type: "string", example: "candidate@hirehub.dev" },
+      },
+      required: ["email"],
+    },
+  })
+  forgot(@Body() body: { email: string }) {
     return this.auth.issueToken(body.email, "RESET_PASSWORD");
   }
-  @Public() @Post("password/reset") reset(
+  @Public()
+  @Post("password/reset")
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        token: { type: "string", example: "some-reset-token" },
+        password: { type: "string", example: "newpassword123" },
+      },
+      required: ["token", "password"],
+    },
+  })
+  reset(
     @Body() body: { token: string; password: string },
   ) {
     return this.auth.consumeToken(body.token, "RESET_PASSWORD", body.password);
