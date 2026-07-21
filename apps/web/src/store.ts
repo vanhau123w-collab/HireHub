@@ -60,6 +60,17 @@ export const useSession = create<Session>((set) => ({
     set({ token });
   },
   logout: () => {
+    const token = sessionStorage.getItem("hirehub_token");
+    const base = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+    if (token && typeof fetch !== "undefined") {
+      fetch(`${base}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).catch(() => {});
+    }
     clearSession();
     set({ token: null, role: null, name: null, user: null });
   },
